@@ -19,6 +19,9 @@ const forkTooltip = (
     <Tooltip id='fork-tooltip'><strong>Fork me on Github</strong></Tooltip>
 );
 
+type State = {
+    isRequest: boolean
+};
 type Props = {
     dbName: string,
     dbModal: boolean,
@@ -26,7 +29,7 @@ type Props = {
     toggleTableModal: () => void
 };
 
-class Header extends Component<Props> {
+class Header extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
@@ -35,12 +38,264 @@ class Header extends Component<Props> {
         }
     }
 
+    componentDidMount(): void {
+        if (!this.props.dbName) {
+            this.initData();
+        }
+    }
+
+    initData = () => {
+        const isDebug = true;
+        const baseUrl = '/display/schema';
+        if (window.location.search.length === 0) return;
+        fetch(baseUrl + window.location.search)
+            .then((res) => {
+                if (res.status !== 200) {
+                    return Promise.reject(new Error(res.statusText));
+                }
+                return res.json();
+            })
+            .then((data) => {
+                // Get Data
+                // const data = JSON.parse(response.data);
+                window.localStorage.setItem('schema', JSON.stringify(data));
+                // Reload the page
+                window.location.reload();
+            }).catch((error) => {
+                alert(`Data Fetch Error${ error }`);
+                if (isDebug) {
+                    const fake = {
+                        database: {
+                            name: 'mysql'
+                        },
+                        ui: {
+                            database: {
+                                showModal: false,
+                                edit: false
+                            },
+                            table: {
+                                showModal: false,
+                                edit: false,
+                                editData: {
+                                    id: '',
+                                    name: '',
+                                    softDelete: false,
+                                    timeStamp: true
+                                }
+                            },
+                            column: {
+                                showModal: false,
+                                edit: false,
+                                editData: {
+                                    id: '',
+                                    name: '',
+                                    type: 'integer',
+                                    length: '',
+                                    defValue: '',
+                                    comment: '',
+                                    autoInc: false,
+                                    nullable: false,
+                                    unique: false,
+                                    index: false,
+                                    unsigned: false,
+                                    foreignKey: {
+                                        references: {
+                                            id: '',
+                                            name: ''
+                                        },
+                                        on: {
+                                            id: '',
+                                            name: ''
+                                        }
+                                    }
+                                },
+                                tableId: ''
+                            },
+                            positions: {
+                                gfms4: {
+                                    x: 918,
+                                    y: 119
+                                },
+                                x00uni: {
+                                    x: 365,
+                                    y: 119
+                                }
+                            }
+                        },
+                        tables: [
+                            {
+                                id: 'gfms4',
+                                name: 'dd',
+                                color: 'table-header-red',
+                                softDelete: false,
+                                timeStamp: true
+                            },
+                            {
+                                id: 'x00uni',
+                                name: 'ddd2',
+                                color: 'table-header-red',
+                                softDelete: false,
+                                timeStamp: true
+                            }
+                        ],
+                        columns: {
+                            gfms4: [
+                                {
+                                    id: 'toxm9',
+                                    name: 'd',
+                                    type: 'tinyInteger',
+                                    length: '1',
+                                    defValue: '1',
+                                    comment: '11',
+                                    autoInc: false,
+                                    nullable: false,
+                                    unique: false,
+                                    index: false,
+                                    unsigned: false,
+                                    foreignKey: {
+                                        references: {
+                                            id: '',
+                                            name: ''
+                                        },
+                                        on: {
+                                            id: '',
+                                            name: ''
+                                        }
+                                    }
+                                },
+                                {
+                                    id: 'x6rlz',
+                                    name: 'f',
+                                    type: 'integer',
+                                    length: '',
+                                    defValue: '',
+                                    comment: '',
+                                    autoInc: false,
+                                    nullable: false,
+                                    unique: false,
+                                    index: true,
+                                    unsigned: true,
+                                    foreignKey: {
+                                        references: {
+                                            id: 'x6rlz',
+                                            name: 'f'
+                                        },
+                                        on: {
+                                            id: 'gfms4',
+                                            name: 'dd'
+                                        }
+                                    }
+                                },
+                                {
+                                    id: 'w2qy2a',
+                                    name: 'asdf',
+                                    type: 'VARCHAR',
+                                    length: '16',
+                                    defValue: '1252',
+                                    comment: '',
+                                    autoInc: false,
+                                    nullable: false,
+                                    unique: false,
+                                    index: false,
+                                    unsigned: false,
+                                    foreignKey: {
+                                        references: {
+                                            id: '',
+                                            name: ''
+                                        },
+                                        on: {
+                                            id: '',
+                                            name: ''
+                                        }
+                                    }
+                                }
+                            ],
+                            x00uni: [
+                                {
+                                    id: 'mjhso',
+                                    name: 'id',
+                                    type: 'integer',
+                                    length: '',
+                                    defValue: '',
+                                    comment: '',
+                                    autoInc: true,
+                                    nullable: false,
+                                    unique: false,
+                                    index: false,
+                                    unsigned: false,
+                                    foreignKey: {
+                                        references: {
+                                            id: '',
+                                            name: ''
+                                        },
+                                        on: {
+                                            id: '',
+                                            name: ''
+                                        }
+                                    }
+                                },
+                                {
+                                    id: 'p08smp',
+                                    name: 'aaa',
+                                    type: 'integer',
+                                    length: '10',
+                                    defValue: '',
+                                    comment: 'adfds',
+                                    autoInc: false,
+                                    nullable: false,
+                                    unique: false,
+                                    index: false,
+                                    unsigned: true,
+                                    foreignKey: {
+                                        references: {
+                                            id: 'x6rlz',
+                                            name: 'f'
+                                        },
+                                        on: {
+                                            id: 'gfms4',
+                                            name: 'dd'
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        relations: [
+                            {
+                                source: {
+                                    columnId: 'p08smp',
+                                    tableId: 'x00uni'
+                                },
+                                target: {
+                                    columnId: 'x6rlz',
+                                    tableId: 'gfms4'
+                                }
+                            },
+                            {
+                                source: {
+                                    columnId: 'x6rlz',
+                                    tableId: 'gfms4'
+                                },
+                                target: {
+                                    columnId: 'x6rlz',
+                                    tableId: 'gfms4'
+                                }
+                            }
+                        ]
+                    };
+                    window.localStorage.setItem('schema', JSON.stringify(fake));
+                    // Reload the page
+                    window.location.reload();
+                }
+            });
+    }
+
     shouldComponentUpdate(nextProps: Props) {
         // Update only if database name changes
         return this.props.dbName !== nextProps.dbName;
     }
 
     clearSchemaData = () => {
+        this.props.toggleDbModal();
         window.localStorage.removeItem('schema');
         window.location.reload();
     }
@@ -62,15 +317,15 @@ class Header extends Component<Props> {
                             <strong>Schema Builder</strong>
                         </div>
                         <div className='db-name col-xs-5 col-sm-4 text-center'>
-                            <span><i className='fa fa-database'></i> { dbName }</span>
-                            { !!dbName &&
-                                <sup>
-                                    <button
-                                        className='fa fa-edit'
-                                        onClick={ this.toggleDbModal }
-                                    >
-                                    </button>
-                                </sup>
+                            <span><i className='fa fa-database'></i> {dbName}</span>
+                            {!!dbName &&
+                            <sup>
+                                <button
+                                    className='fa fa-edit'
+                                    onClick={ this.toggleDbModal }
+                                >
+                                </button>
+                            </sup>
                             }
                         </div>
                         <div className='menu col-xs-2 col-sm-4 text-right'>

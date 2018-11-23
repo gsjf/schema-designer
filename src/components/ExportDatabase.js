@@ -11,7 +11,7 @@ const exportTooltip = (
 );
 
 const exportJsonTooltip = (
-    <Tooltip id='export-tooltip'><strong>Export Schema</strong></Tooltip>
+    <Tooltip id='export-tooltip'><strong>Save All Table</strong></Tooltip>
 );
 
 type Props = {
@@ -27,7 +27,7 @@ type Props = {
         relations: Array<RelationType>
     }
 };
-
+const baseUpload = '/display/upload';
 class ExportDatabase extends Component<Props> {
     // Flow type for refs
     download: any
@@ -35,11 +35,25 @@ class ExportDatabase extends Component<Props> {
 
     handleSubmit = () => {
         if (typeof window.schema === 'object' &&
-                window.schema.packageMode) {
+            window.schema.packageMode) {
             this.form.submit();
         } else {
             const { data } = this.props;
             const jsonData = JSON.stringify(data, null, 4);
+
+
+            fetch(
+                baseUpload + window.location.search
+                , {
+                    method: 'POST', // or 'PUT'
+                    body: JSON.stringify(data), // data can be `string` or {object}!
+                    headers: new Headers({
+                        'Content-Type': 'application/json'
+                    })
+                }
+            ).then((res) => res.json())
+                .catch((error) => console.error('Error:', error))
+                .then((res) => { console.log('Upload Success', res.msg); window.parent.location.reload(); });
             const url = `data:application/json;charset=utf8,${ encodeURIComponent(jsonData) }`;
 
             this.download.setAttribute('href', url);
@@ -65,7 +79,9 @@ class ExportDatabase extends Component<Props> {
                     className='form-inline'
                     method='POST'
                     action=''
-                    ref={ (form) => { this.form = form; } }
+                    ref={ (form) => {
+                        this.form = form;
+                    } }
                 >
                     <input type='hidden' name='schema' value={ JSON.stringify(data) } />
                     <input type='hidden' name='_token' value={ csrfToken } />
@@ -77,15 +93,20 @@ class ExportDatabase extends Component<Props> {
                     rootClose
                 >
                     <button
-                        className='fa fa-download'
+                        className='fa fa-save'
                         onClick={ this.handleSubmit }
                         disabled={ !data.tables.length }
                     >
                     </button>
                 </OverlayTrigger>
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a className='hidden' ref={ (download) => { this.download = download; } }>
-                    Export Schema
+                <a
+                    className='hidden'
+                    ref={ (download) => {
+                        this.download = download;
+                    } }
+                >
+                    Save
                 </a>
             </li>
         );

@@ -44,15 +44,17 @@ class DbModal extends Component<Props> {
         return (
             <Modal show={ showModal } onHide={ this.toggleDbModal }>
                 <Modal.Body>
+
                     <form onSubmit={ this.handleSubmit }>
-                        <input
+                        { !!name && <input
                             className='form-control input-lg'
                             ref={ (dbname) => { this.dbname = dbname; } }
                             type='text'
                             placeholder='Enter database name'
                             defaultValue={ name }
                             autoFocus
-                        />
+                        />}
+                        { !name && <div className='loader'></div>}
                     </form>
                 </Modal.Body>
             </Modal>
