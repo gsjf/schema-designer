@@ -16,6 +16,9 @@ export type ForeignKeyType = {
 export type ColumnType = {
     id: string,
     name: string,
+    alias: boolean,
+    originTable: string,
+    originColumn: string,
     type: string,
     comment: string,
     autoInc: boolean,

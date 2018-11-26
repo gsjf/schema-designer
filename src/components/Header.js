@@ -356,6 +356,7 @@ class Header extends Component<Props, State> {
                                     }
                                 ],
                                 fathers: [],
+                                sons: ['son'],
                                 brothers: ['brother'],
                                 name: 'root'
                             },
@@ -433,6 +434,7 @@ class Header extends Component<Props, State> {
                                 ],
                                 fathers: ['root'],
                                 brothers: [],
+                                sons: [],
                                 name: 'son'
                             }, {
                                 columns: [
@@ -485,9 +487,11 @@ class Header extends Component<Props, State> {
                                 ],
                                 fathers: [],
                                 brothers: [],
+                                sons: [],
                                 name: 'brother'
                             }
-                        ]
+                        ],
+                        primary: 'id'
                     };
                     window.localStorage.setItem('schema', JSON.stringify(fake));
                     // Reload the page

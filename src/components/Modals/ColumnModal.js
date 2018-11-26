@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/lib/Modal';
 import classnames from 'classnames';
 import findIndex from 'lodash/findIndex';
 import ForeignKeyForm from './ForeignKeyForm';
-import type { ColumnType, TableType } from '../../utils/flowtypes';
+import type { ColumnType, TableType, OriginTable } from '../../utils/flowtypes';
 import { isFractionType } from '../../utils/helpers';
 
 type Props = {
@@ -18,6 +18,8 @@ type Props = {
     columns: {
         [tableId: string]: Array<ColumnType>
     },
+    origins: Array<OriginTable>,
+    primary: string,
     toggleColumnModal: () => void,
     saveColumn: (data: ColumnType, tableId: string, hideModal?: boolean) => void,
     updateColumn: (data: ColumnType, tableId: string) => void
@@ -182,10 +184,12 @@ class ColumnModal extends Component<Props, State> {
             editMode,
             showColumnModal,
             tables,
-            toggleColumnModal
+            toggleColumnModal,
+            origins,
+            primary,
+            tableId
         } = this.props;
         const { columnType, duplicateName, foreignKeyEnabled, isUnsigned } = this.state;
-
         return (
             <Modal
                 show={ showColumnModal }
@@ -372,6 +376,9 @@ class ColumnModal extends Component<Props, State> {
                                 columns={ columns }
                                 tables={ tables }
                                 data={ editData.foreignKey }
+                                primary={ primary }
+                                tableId={ tableId }
+                                origins={ origins }
                             />
                         }
                     </form>

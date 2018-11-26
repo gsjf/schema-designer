@@ -72,6 +72,7 @@ const initialState = [
             }
         ],
         fathers: [],
+        sons: ['son'],
         brothers: ['brother'],
         name: 'root'
     },
@@ -149,6 +150,7 @@ const initialState = [
         ],
         fathers: ['root'],
         brothers: [],
+        sons: [],
         name: 'son'
     }, {
         columns: [
@@ -201,6 +203,7 @@ const initialState = [
         ],
         fathers: [],
         brothers: [],
+        sons: [],
         name: 'brother'
     }
 ];

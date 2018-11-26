@@ -17,7 +17,9 @@ const mapStateToProps = (state) => ({
     editData: state.ui.column.editData,
     tableId: state.ui.column.tableId,
     tables: state.tables,
-    columns: state.columns
+    columns: state.columns,
+    origins: state.origins,
+    primary: state.primary
 });
 
 const mapDispatchToProps = (dispatch) => ({

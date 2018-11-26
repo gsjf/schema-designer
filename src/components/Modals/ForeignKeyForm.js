@@ -3,10 +3,13 @@
  */
 import React, { PureComponent } from 'react';
 import find from 'lodash/find';
-import type { ColumnType, ForeignKeyType, TableType } from '../../utils/flowtypes';
+import type { ColumnType, ForeignKeyType, TableType, OriginTable } from '../../utils/flowtypes';
 
 type Props = {
     tables: Array<TableType>,
+    tableId: string,
+    origins: Array<OriginTable>,
+    primary: string,
     columns: {
         [tableId: string]: Array<ColumnType>
     },
@@ -65,8 +68,7 @@ class ForeignKeyForm extends PureComponent<Props, State> {
     }
 
     setCurrentForeignTable = (event: { target: { value: string } }) => {
-        const { tables } = this.props;
-
+        const { tables, columns, primary } = this.props;
         const selected = event.target.value;
         let name = '';
 
@@ -74,12 +76,14 @@ class ForeignKeyForm extends PureComponent<Props, State> {
             // eslint-disable-next-line
             name = find(tables, { id: selected }).name;
         }
+        const { id } = columns[selected]
+            .filter((column) => !column.foreignKey.on.id && column.name === primary)[0];
 
         this.setState({
             currentForeignTableId: selected,
             currentForeignTableName: name,
-            currentForeignColumnId: '',
-            currentForeignColumnName: ''
+            currentForeignColumnId: id,
+            currentForeignColumnName: primary
         });
     }
 
@@ -101,10 +105,34 @@ class ForeignKeyForm extends PureComponent<Props, State> {
         });
     }
 
+    getBrother = () => {
+        const { tables, tableId, origins } = this.props;
+
+        const thisTable = tables.filter((e) => (e.id === tableId))[0];
+        const origin = origins.filter((e) => (e.name === thisTable.origin))[0];
+        const brothers = tables.filter((table) => origin.brothers.filter((e) => e === table.origin).length > 0);
+        console.log('brothers');
+        console.log(brothers);
+        return brothers;
+    }
+
+    getFather = () => {
+        const { tables, tableId, origins } = this.props;
+
+        const thisTable = tables.filter((e) => (e.id === tableId))[0];
+        const origin = origins.filter((e) => (e.name === thisTable.origin))[0];
+        const sons = tables.filter((table) => origin.fathers.filter((e) => e === table.origin).length > 0);
+        console.log('sons');
+        console.log(sons);
+        return sons;
+    }
+
     render() {
         console.log('ForeignKeyForm rendering'); // eslint-disable-line no-console
-        const { tables, data, columns } = this.props;
+        const { tables, data, columns, tableId, primary } = this.props;
         const { currentForeignTableId } = this.state;
+        console.log(tables);
+        console.log(tableId);
 
         return (
             <div className='form-group'>
@@ -113,35 +141,57 @@ class ForeignKeyForm extends PureComponent<Props, State> {
                 <div className='col-xs-3'>
                     <select
                         className='form-control'
-                        defaultValue={ data.references.id }
                         onChange={ this.setCurrentForeignColumn }
                     >
-                        <option value=''>None</option>
+                        { columns[currentForeignTableId] !== undefined &&
+                        columns[currentForeignTableId]
+                            .filter((column) => !column.foreignKey.on.id && column.name === primary)
+                            .map((column) => (
 
+                                <option key={ column.id } value={ column.id } selected>
+                                    { column.name }
+                                </option>
+                            ))
+                        }
                         { columns[currentForeignTableId] !== undefined &&
                             columns[currentForeignTableId]
-                                .filter((column) => !column.foreignKey.on.id)
+                                .filter((column) => !column.foreignKey.on.id && column.name !== primary)
                                 .map((column) => (
-                                    <option key={ column.id } value={ column.id }>
+
+                                    <option key={ column.id } value={ column.id } disabled>
                                         { column.name }
                                     </option>
                                 ))
                         }
+
+
                     </select>
                 </div>
                 <span className='col-xs-1 control-label'>On:</span>
                 <div className='col-xs-3'>
                     <select
                         className='form-control'
-                        defaultValue={ data.on.id }
                         onChange={ this.setCurrentForeignTable }
+                        defaultValue={ data.on.id }
                     >
                         <option value=''>None</option>
-                        { tables.map((table) => (
-                            <option key={ table.id } value={ table.id }>
-                                { table.name }
-                            </option>
-                        ))}
+
+                        <optgroup label='Father'>
+                            { this.getFather().map((table) => (
+                                <option key={ table.id } value={ table.id }>
+                                    { table.name }
+                                </option>
+                            ))}
+
+                        </optgroup>
+
+                        <optgroup label='Brother'>
+                            { this.getBrother().map((table) => (
+                                <option key={ table.id } value={ table.id }>
+                                    { table.name }
+                                </option>
+                            ))}
+                        </optgroup>
                     </select>
                 </div>
             </div>

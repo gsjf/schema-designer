@@ -62,6 +62,7 @@ class TableModal extends Component<Props, State> {
             color: name === this.origin ? 'table-header-red' : 'table-header-green',
             softDelete: this.initAll.checked,
             initAll: this.initAll.checked,
+            origin: this.origin,
             columns: []
         };
 
@@ -87,7 +88,12 @@ class TableModal extends Component<Props, State> {
         } else {
             if (data.initAll) {
                 origins.filter((ele) => ele.name === this.origin).forEach((ele) =>
-                    (ele.columns.forEach((e) => data.columns.push(e))));
+                    (ele.columns.forEach((e) => data.columns.push({ ...e,
+                        id: Math.random().toString(36).substring(7),
+                        originTable: data.origin,
+                        originColumn: e.name,
+                        alias: false,
+                        name: e.name }))));
             }
             saveTable(data);
         }
