@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
         case types.SAVE_TABLE:
             // Push new key for storing columns for this table
             return update(state, {
-                [action.data.id]: { $set: [] }
+                [action.data.id]: { $set: action.data.columns.filter((e) => (!e.foreignKey.on.id)) }
             });
         case types.REMOVE_TABLE: {
             // Drop all columns for this table
@@ -22,7 +22,7 @@ export default (state = initialState, action) => {
             let needUpdate = false;
             const data = mapValues(state, (columns) => (
                 columns.map((column) => {
-                    const foreignKey = column.foreignKey;
+                    const { foreignKey } = column.foreignKey;
 
                     if (foreignKey.on.id === action.data.id) {
                         needUpdate = true;
@@ -60,7 +60,7 @@ export default (state = initialState, action) => {
             let needUpdate = false;
             const data = mapValues(state, (columns) => (
                 columns.map((column) => {
-                    const foreignKey = column.foreignKey;
+                    const { foreignKey } = column.foreignKey;
 
                     if (foreignKey.references.id === action.columnData.id) {
                         needUpdate = true;

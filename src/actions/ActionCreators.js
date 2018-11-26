@@ -113,3 +113,4 @@ export function storeTablePosition(newPos: TablePositionType) {
         newPos
     };
 }
+

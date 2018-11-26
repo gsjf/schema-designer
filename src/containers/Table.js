@@ -12,12 +12,13 @@ const positionSelector = () => (
     )
 );
 
-const mapStateToProps = () => {
+const mapStateToProps = (stateS) => {
     // Make new copy of position for each table
     const getPosition = positionSelector();
 
     return (state, ownProps) => ({
-        position: getPosition(state, ownProps)
+        position: getPosition(state, ownProps),
+        origins: stateS.origins
     });
 };
 

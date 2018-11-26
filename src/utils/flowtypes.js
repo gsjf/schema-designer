@@ -31,6 +31,7 @@ export type ColumnType = {
 export type TableType = {
     id: string,
     name: string,
+    origin: string,
     color: string,
     softDelete: boolean,
     timeStamp: boolean
@@ -68,4 +69,12 @@ export type UiType = {
         edit: false,
         editData: ColumnType
     }
+};
+
+export type OriginTable = {
+    columns: Array<ColumnType>,
+    fathers: Array<string>,
+    brothers: Array<string>,
+    name: string
+
 };

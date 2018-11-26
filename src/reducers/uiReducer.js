@@ -10,9 +10,11 @@ const initialState = {
         showModal: false,
         edit: false,
         editData: {
+            origin: null,
+            alias: false,
             id: '',
             name: '',
-            softDelete: false,
+            initAll: true,
             timeStamp: true
         }
     },
@@ -128,7 +130,7 @@ export default (state = initialState, action) => {
                 }
             });
         case types.SAVE_TABLE: {
-            const length = Object.keys(state.positions).length;
+            const { length } = Object.keys(state.positions);
             return update(state, {
                 positions: {
                     [action.data.id]: {

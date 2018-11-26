@@ -12,7 +12,8 @@ import {
 } from '../actions/ActionCreators';
 
 const mapStateToProps = (state) => ({
-    tables: state.tables
+    tables: state.tables,
+    origins: state.origins
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -95,15 +95,15 @@ class Table extends PureComponent<Props, State> {
                             </Modal.Header>
 
                             <Modal.Body>
-                                <h5 className='modal-body'>
-                                    Are you sure?
-                                </h5>
+                                <h3 className='modal-body text-warning'>
+                                    Are you sure
+                                </h3>
                             </Modal.Body>
 
                             <Modal.Footer className='modal-footer text-right'>
                                 <button
                                     type='button'
-                                    className='btn btn-primary'
+                                    className='btn btn-warning'
                                     onClick={ this.removeTable }
                                     onKeyPress={ noop }
                                 > Delete

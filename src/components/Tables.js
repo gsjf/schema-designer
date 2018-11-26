@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import jsPlumb from 'jsplumb';
 import Table from '../containers/Table';
-import type { TableType, TablePositionType } from '../utils/flowtypes';
+import type { TableType, TablePositionType} from '../utils/flowtypes';
 
 type Props = {
     tables: Array<TableType>,

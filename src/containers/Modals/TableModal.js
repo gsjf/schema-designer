@@ -9,7 +9,8 @@ const mapStateToProps = (state) => ({
     showTableModal: state.ui.table.showModal,
     editMode: state.ui.table.edit,
     editData: state.ui.table.editData,
-    tables: state.tables
+    tables: state.tables,
+    origins: state.origins
 });
 
 const mapDispatchToProps = (dispatch) => ({
