@@ -11,6 +11,10 @@ const tableTooltip = (
     <Tooltip id='table-tooltip'><strong>Create New Table</strong></Tooltip>
 );
 
+const databaseTooltip = (
+    <Tooltip id='table-tooltip'><strong>Please set as your root table</strong></Tooltip>
+);
+
 const trashTooltip = (
     <Tooltip id='trash-tooltip'><strong>Clear Current Schema</strong></Tooltip>
 );
@@ -531,18 +535,28 @@ class Header extends Component<Props, State> {
                         <div className='title col-xs-5 col-sm-4 text-left'>
                             <strong>Schema Builder</strong>
                         </div>
-                        <div className='db-name col-xs-5 col-sm-4 text-center'>
-                            <span><i className='fa fa-database'></i> {dbName}</span>
-                            {!!dbName &&
-                            <sup>
-                                <button
-                                    className='fa fa-edit'
-                                    onClick={ this.toggleDbModal }
-                                >
-                                </button>
-                            </sup>
-                            }
-                        </div>
+                        <OverlayTrigger
+                            placement='bottom'
+                            overlay={ databaseTooltip }
+                            delayShow={ 300 }
+                            rootClose
+                        >
+                            <div className='db-name col-xs-5 col-sm-4 text-center'>
+
+                                <span><i className='fa fa-database'></i> {dbName}</span>
+                                {!!dbName &&
+
+                                <sup>
+                                    <button
+                                        className='fa fa-edit'
+                                        onClick={ this.toggleDbModal }
+                                    >
+                                    </button>
+                                </sup>
+                                }
+
+                            </div>
+                        </OverlayTrigger>
                         <div className='menu col-xs-2 col-sm-4 text-right'>
                             <ul className='list-inline'>
                                 <li>
