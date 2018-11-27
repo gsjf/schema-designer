@@ -41,7 +41,8 @@ class OriginKeyForm extends PureComponent<Props, State> {
         const selected = event.target.value;
 
         this.setState({
-            currentOriginTableName: selected
+            currentOriginTableName: selected,
+            currentOriginColumnName: this.state.currentOriginColumnName
         });
     }
 

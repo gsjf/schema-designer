@@ -24,10 +24,15 @@ type State = {
 };
 
 class TableModal extends Component<Props, State> {
-    state = {
-        duplicateName: false,
-        notSetFather: false,
-        isAlias: false
+    constructor(props: Props) {
+        super(props);
+        const { editData } = this.props;
+        this.state = {
+            duplicateName: false,
+            notSetFather: false,
+            isAlias: editData.name !== editData.origin
+        };
+        this.origin = editData.origin;
     }
 
     // Flow type for refs
@@ -53,7 +58,7 @@ class TableModal extends Component<Props, State> {
         }
         let name = this.origin;
         console.log(`this.name${ this.name }`);
-        if (this.name !== undefined && this.name.value) {
+        if (this.state.isAlias) {
             name = this.name.value.trim();
         }
         const data = {
@@ -62,6 +67,7 @@ class TableModal extends Component<Props, State> {
             color: name === this.origin ? 'table-header-red' : 'table-header-green',
             initAll: editMode ? this.initAll : this.initAll.checked,
             origin: this.origin,
+            timeStamp: this.timestamp.checked,
             columns: []
         };
 
@@ -91,7 +97,7 @@ class TableModal extends Component<Props, State> {
                         id: Math.random().toString(36).substring(7),
                         originTable: data.origin,
                         originColumn: e.name,
-                        isAlias: false,
+                        alias: false,
                         name: e.name }))));
             }
             saveTable(data);
@@ -110,12 +116,15 @@ class TableModal extends Component<Props, State> {
     }
 
     updateName = () => {
+        // if (this.state.isAlias) this.name = this.name.
         this.setState({ isAlias: !this.state.isAlias });
+        // if (!this.state.isAlias) this.name.value = '';
     }
 
     setCurrentOrigin = (event: { target: { value: string } }) => {
         this.origin = event.target.value;
     }
+
 
     render() {
         console.log('TableModal rendering'); // eslint-disable-line no-console
@@ -148,15 +157,15 @@ class TableModal extends Component<Props, State> {
                                 <select
                                     className='form-control'
                                     onChange={ this.setCurrentOrigin }
-                                    defaultValue={ this.origin }
+                                    defaultValue={ editData.origin }
                                 >
 
-                                    <option key='None' value='' >
+                                    <option key='None' value='' disabled={ editMode }>
                                         null
                                     </option>
 
                                     { origins.map((table) => (
-                                        <option key={ table.name } value={ table.name }>
+                                        <option key={ table.name } value={ table.name } disabled={ editMode }>
                                             { table.name }
                                         </option>
                                     ))}
@@ -175,7 +184,7 @@ class TableModal extends Component<Props, State> {
                                 type='checkbox'
                                 id='name'
                                 onChange={ this.updateName }
-                                checked={ this.state.isAlias }
+                                defaultChecked={ this.state.isAlias }
                             /> Rename:
                             </label>
                             { this.state.isAlias &&

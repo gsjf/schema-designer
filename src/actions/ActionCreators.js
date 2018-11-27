@@ -52,11 +52,11 @@ export function updateTable(data: TableType) {
     };
 }
 
-export function toggleColumnModal(tableId?: string, originTable?: string) {
+export function toggleColumnModal(tableId?: string, origin?: string) {
     return {
         type: types.TOGGLE_COLUMN_MODAL,
         tableId,
-        originTable
+        origin
     };
 }
 

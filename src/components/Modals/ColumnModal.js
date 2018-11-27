@@ -34,14 +34,6 @@ type State = {
 };
 
 class ColumnModal extends Component<Props, State> {
-    state = {
-        columnType: '',
-        duplicateName: false,
-        foreignKeyEnabled: false,
-        isUnsigned: false,
-        isAlias: true
-    }
-
     // Flow type for refs
     name: any
     type: any
@@ -56,6 +48,18 @@ class ColumnModal extends Component<Props, State> {
     foreignKey: any
     form: any
 
+    constructor(props: Props) {
+        super(props);
+        const { editData } = props;
+        this.state = {
+            columnType: '',
+            duplicateName: false,
+            foreignKeyEnabled: false,
+            isUnsigned: false,
+            isAlias: editData.alias
+        };
+    }
+
     componentWillReceiveProps(nextProps: Props) {
         // For edit action
         this.setState({
@@ -68,10 +72,15 @@ class ColumnModal extends Component<Props, State> {
 
     getFormData = () => {
         let name;
+        const origin = this.origin.getData();
         if (this.state.isAlias) {
             name = this.name.value.trim();
         } else {
-            name = this.origin.getData().originTable.trim();
+            name = origin.currentOriginColumnName;
+            if (!name) {
+                this.setState({ duplicateName: true });
+                return false;
+            }
         }
         const data = {
             name,
@@ -84,6 +93,8 @@ class ColumnModal extends Component<Props, State> {
             unique: this.unique.checked,
             index: this.index.checked,
             unsigned: this.unsigned.checked,
+            originTable: origin.currentOriginTableName,
+            originColumn: origin.currentOriginColumnName,
             foreignKey: {
                 references: {
                     id: '',
@@ -113,6 +124,7 @@ class ColumnModal extends Component<Props, State> {
             this.setState({ duplicateName: true });
             return false;
         }
+        data.alias = data.name !== data.originColumn;
 
         // Reset all state variables
         this.setState({

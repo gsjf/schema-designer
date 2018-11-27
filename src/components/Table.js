@@ -15,7 +15,7 @@ type Props = {
     },
     onEditTable: (data: TableType) => void,
     onRemoveTable: (id: string) => void,
-    onToggleColumnModal: (id: string) => void
+    onToggleColumnModal: (id: string, origin: string) => void
 };
 
 type State = {
@@ -58,7 +58,10 @@ class Table extends PureComponent<Props, State> {
                 style={ { left: position.x, top: position.y } }
             >
                 <div className={ `table-header clearfix ${ data.color }` }>
-                    <h4 className='pull-left' title={ data.name }>{ data.name }</h4>
+                    <h4 className='pull-left' title={ data.name }>
+                        { data.name } { data.name === data.origin ? '' : `[${ data.origin }]`}
+                    </h4>
+
                     <div className='pull-right'>
                         <span
                             className='fa fa-plus'
