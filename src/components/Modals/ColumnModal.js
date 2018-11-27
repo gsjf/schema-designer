@@ -283,31 +283,25 @@ class ColumnModal extends Component<Props, State> {
                                     defaultValue={ columnType }
                                     onChange={ this.updateColumnType }
                                 >
-                                    <option value='integer'>INT</option>
-                                    <option value='string'>VARCHAR</option>
-                                    <option value='text'>TEXT</option>
-                                    <option value='date'>DATE</option>
+                                    <option value='Integer'>Integer</option>
+                                    <option value='VARCHAR'>VARCHAR</option>
+                                    <option value='Text'>Text</option>
+                                    <option value='DateTime'>DateTime</option>
                                     <optgroup label='Numeric'>
-                                        <option value='tinyInteger'>TINYINT</option>
-                                        <option value='smallInteger'>SMALLINT</option>
-                                        <option value='mediumInteger'>MEDIUMINT</option>
-                                        <option value='bigInteger'>BIGINT</option>
-                                        <option value='boolean'>BOOLEAN</option>
+                                        <option value='SMALLINT'>SMALLINT</option>
+                                        <option value='BigInteger'>BigInteger</option>
+                                        <option value='Boolean'>Boolean</option>
                                         <option disabled='disabled'>-</option>
-                                        <option value='decimal'>DECIMAL</option>
-                                        <option value='float'>FLOAT</option>
-                                        <option value='double'>DOUBLE</option>
+                                        <option value='DECIMAL'>DECIMAL</option>
+                                        <option value='FLOAT'>FLOAT</option>
                                     </optgroup>
                                     <optgroup label='Date and time'>
-                                        <option value='dateTime'>DATETIME</option>
-                                        <option value='timestamp'>TIMESTAMP</option>
-                                        <option value='time'>TIME</option>
+                                        <option value='Date'>Date</option>
+                                        <option value='TIMESTAMP'>TIMESTAMP</option>
+                                        <option value='TIME'>TIME</option>
                                     </optgroup>
                                     <optgroup label='String'>
-                                        <option value='char'>CHAR</option>
-                                        <option value='tinyText'>TINYTEXT</option>
-                                        <option value='mediumText'>MEDIUMTEXT</option>
-                                        <option value='longText'>LONGTEXT</option>
+                                        <option value='CHAR'>CHAR</option>
                                     </optgroup>
                                 </select>
                             </div>
