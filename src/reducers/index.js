@@ -5,7 +5,7 @@ import tableReducer from './tableReducer';
 import columnReducer from './columnReducer';
 import relationReducer from './relationReducer';
 import originReducer from './originReducer';
-import primaryReducer from './primaryReducer'
+import primaryReducer from './primaryReducer';
 
 export default combineReducers({
     database: databaseReducer,

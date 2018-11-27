@@ -27,7 +27,7 @@ class TableModal extends Component<Props, State> {
     state = {
         duplicateName: false,
         notSetFather: false,
-        alias: false
+        isAlias: false
     }
 
     // Flow type for refs
@@ -60,8 +60,7 @@ class TableModal extends Component<Props, State> {
             id: editMode ? editData.id : Math.random().toString(36).substring(7),
             name,
             color: name === this.origin ? 'table-header-red' : 'table-header-green',
-            softDelete: this.initAll.checked,
-            initAll: this.initAll.checked,
+            initAll: editMode ? this.initAll : this.initAll.checked,
             origin: this.origin,
             columns: []
         };
@@ -92,7 +91,7 @@ class TableModal extends Component<Props, State> {
                         id: Math.random().toString(36).substring(7),
                         originTable: data.origin,
                         originColumn: e.name,
-                        alias: false,
+                        isAlias: false,
                         name: e.name }))));
             }
             saveTable(data);
@@ -111,7 +110,7 @@ class TableModal extends Component<Props, State> {
     }
 
     updateName = () => {
-        this.setState({ alias: !this.state.alias });
+        this.setState({ isAlias: !this.state.isAlias });
     }
 
     setCurrentOrigin = (event: { target: { value: string } }) => {
@@ -153,7 +152,7 @@ class TableModal extends Component<Props, State> {
                                 >
 
                                     <option key='None' value='' >
-                                        None
+                                        null
                                     </option>
 
                                     { origins.map((table) => (
@@ -176,10 +175,10 @@ class TableModal extends Component<Props, State> {
                                 type='checkbox'
                                 id='name'
                                 onChange={ this.updateName }
-                                checked={ this.state.alias }
+                                checked={ this.state.isAlias }
                             /> Rename:
                             </label>
-                            { this.state.alias &&
+                            { this.state.isAlias &&
                             <div className='col-xs-10'>
                                 <input
                                     type='text'
@@ -199,7 +198,7 @@ class TableModal extends Component<Props, State> {
                             }
                         </div>
 
-
+                        {!editMode &&
                         <div className='checkbox'>
                             <label htmlFor='softdelete'>
                                 <input
@@ -210,8 +209,10 @@ class TableModal extends Component<Props, State> {
                                     } }
                                     defaultChecked={ editData.initAll }
                                 /> Init From Origin Table
+
                             </label>
                         </div>
+                        }
                         <div className='checkbox'>
                             <label htmlFor='timestamp'>
                                 <input

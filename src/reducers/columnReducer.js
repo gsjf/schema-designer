@@ -22,7 +22,7 @@ export default (state = initialState, action) => {
             let needUpdate = false;
             const data = mapValues(state, (columns) => (
                 columns.map((column) => {
-                    const { foreignKey } = column.foreignKey;
+                    const { foreignKey } = column;
 
                     if (foreignKey.on.id === action.data.id) {
                         needUpdate = true;

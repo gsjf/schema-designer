@@ -6,6 +6,7 @@ import Modal from 'react-bootstrap/lib/Modal';
 import classnames from 'classnames';
 import findIndex from 'lodash/findIndex';
 import ForeignKeyForm from './ForeignKeyForm';
+import OriginKeyForm from './OriginKeyForm';
 import type { ColumnType, TableType, OriginTable } from '../../utils/flowtypes';
 import { isFractionType } from '../../utils/helpers';
 
@@ -37,7 +38,8 @@ class ColumnModal extends Component<Props, State> {
         columnType: '',
         duplicateName: false,
         foreignKeyEnabled: false,
-        isUnsigned: false
+        isUnsigned: false,
+        isAlias: true
     }
 
     // Flow type for refs
@@ -65,8 +67,14 @@ class ColumnModal extends Component<Props, State> {
     }
 
     getFormData = () => {
+        let name;
+        if (this.state.isAlias) {
+            name = this.name.value.trim();
+        } else {
+            name = this.origin.getData().originTable.trim();
+        }
         const data = {
-            name: this.name.value.trim().toLowerCase(),
+            name,
             type: this.type.value,
             length: this.length.value.trim(),
             defValue: this.defValue.value.trim(),
@@ -176,6 +184,10 @@ class ColumnModal extends Component<Props, State> {
         this.setState({ foreignKeyEnabled: event.target.checked });
     }
 
+    updateName = () => {
+        this.setState({ isAlias: !this.state.isAlias });
+    }
+
     render() {
         console.log('ColumnModal rendering'); // eslint-disable-line no-console
         const {
@@ -210,18 +222,38 @@ class ColumnModal extends Component<Props, State> {
                         ref={ (form) => { this.form = form; } }
                         onSubmit={ this.handleSubmit }
                     >
+
+                        <OriginKeyForm
+                            ref={ (origin) => { this.origin = origin; } }
+                            columns={ columns }
+                            tables={ tables }
+                            primary={ primary }
+                            tableId={ tableId }
+                            origins={ origins }
+                            column={ editData }
+                        />
+
+
                         <div className={ classnames('form-group', { 'has-error': duplicateName }) }>
-                            <label className='col-xs-3 control-label' htmlFor='name'>Name:</label>
-                            <div className='col-xs-9'>
-                                <input
-                                    type='text'
-                                    id='name'
-                                    ref={ (name) => { this.name = name; } }
-                                    className='form-control'
-                                    defaultValue={ editData.name }
-                                    autoFocus
-                                />
-                            </div>
+                            <label className='col-xs-3 control-label' htmlFor='name'><input
+                                type='checkbox'
+                                id='name'
+                                onChange={ this.updateName }
+                                checked={ this.state.isAlias }
+                            /> Rename:
+                            </label>
+                            { this.state.isAlias &&
+                                <div className='col-xs-9'>
+                                    <input
+                                        type='text'
+                                        id='name'
+                                        ref={ (name) => { this.name = name; } }
+                                        className='form-control'
+                                        defaultValue={ editData.name }
+                                    />
+                                </div>
+
+                            }
 
                             { duplicateName &&
                                 <span className='col-xs-offset-3 col-xs-9 help-block'>

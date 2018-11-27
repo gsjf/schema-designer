@@ -39,7 +39,7 @@ class Table extends PureComponent<Props, State> {
 
     toggleColumnModal = () => {
         const { data, onToggleColumnModal } = this.props;
-        onToggleColumnModal(data.id);
+        onToggleColumnModal(data.id, data.origin);
     };
 
     toggleConfirm = () => {

@@ -80,7 +80,8 @@ class Header extends Component<Props, State> {
                                     id: '',
                                     name: '',
                                     softDelete: false,
-                                    timeStamp: true
+                                    timeStamp: true,
+                                    initAll: true
                                 }
                             },
                             column: {
@@ -99,6 +100,9 @@ class Header extends Component<Props, State> {
                                     unique: false,
                                     index: false,
                                     unsigned: false,
+                                    originTable: '',
+                                    originColumn: '',
+                                    isAlias: false,
                                     foreignKey: {
                                         references: {
                                             id: '',
@@ -310,7 +314,7 @@ class Header extends Component<Props, State> {
                                     },
                                     {
                                         id: 'wg94c3',
-                                        name: 'son_name',
+                                        name: 'root_name',
                                         type: 'char',
                                         length: '10',
                                         defValue: '',
@@ -486,7 +490,7 @@ class Header extends Component<Props, State> {
                                     }
                                 ],
                                 fathers: [],
-                                brothers: [],
+                                brothers: ['root'],
                                 sons: [],
                                 name: 'brother'
                             }

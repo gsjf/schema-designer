@@ -24,8 +24,8 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(enableTableEdit(data));
         dispatch(toggleTableModal());
     },
-    toggleColumnModal: (tableId) => {
-        dispatch(toggleColumnModal(tableId));
+    toggleColumnModal: (tableId, origin) => {
+        dispatch(toggleColumnModal(tableId, origin));
     },
     storeTablePosition: (newPos) => {
         dispatch(storeTablePosition(newPos));

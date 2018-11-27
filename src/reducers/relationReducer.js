@@ -49,7 +49,7 @@ export default (state = initialState, action) => {
 
             return state;
         case types.UPDATE_FOREIGN_KEY_RELATION: {
-            const { foreignKey } = action.columnData.foreignKey;
+            const { foreignKey } = action.columnData;
 
             if (foreignKey.on.id) {
                 let matched = false;

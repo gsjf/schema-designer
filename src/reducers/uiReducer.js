@@ -11,7 +11,7 @@ const initialState = {
         edit: false,
         editData: {
             origin: null,
-            alias: false,
+            isAlias: false,
             id: '',
             name: '',
             initAll: true,
@@ -33,6 +33,9 @@ const initialState = {
             unique: false,
             index: false,
             unsigned: false,
+            originTable: '',
+            originColumn: '',
+            isAlias: false,
             foreignKey: {
                 references: {
                     id: '',
@@ -117,7 +120,8 @@ export default (state = initialState, action) => {
             return update(state, {
                 column: {
                     showModal: { $set: true },
-                    tableId: { $set: action.tableId }
+                    tableId: { $set: action.tableId },
+                    editData: { originTable: { $set: action.originTable } }
                 }
             });
         }

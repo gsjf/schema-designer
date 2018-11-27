@@ -109,22 +109,43 @@ class ForeignKeyForm extends PureComponent<Props, State> {
         const { tables, tableId, origins } = this.props;
 
         const thisTable = tables.filter((e) => (e.id === tableId))[0];
+        if (thisTable === undefined) return [];
+
         const origin = origins.filter((e) => (e.name === thisTable.origin))[0];
-        const brothers = tables.filter((table) => origin.brothers.filter((e) => e === table.origin).length > 0);
-        console.log('brothers');
-        console.log(brothers);
-        return brothers;
+
+        if (origin === undefined) return [];
+        return tables.filter((table) => origin.brothers.filter((e) => e === table.origin).length > 0);
+    }
+
+    getColumns = (name) => {
+        const { origins, primary } = this.props;
+        const thisTable = this.getCurrentTable();
+        if (thisTable === undefined) return [];
+        const origin = origins.filter((e) => (e.name === name))[0];
+        console.log(origin.brothers);
+        console.log('origin.brothers');
+        return origin.columns.filter((column) => !column.foreignKey.on.id && column.name !== primary);
     }
 
     getFather = () => {
         const { tables, tableId, origins } = this.props;
 
         const thisTable = tables.filter((e) => (e.id === tableId))[0];
+        if (thisTable === undefined) return [];
         const origin = origins.filter((e) => (e.name === thisTable.origin))[0];
+        if (origin === undefined) return [];
+
         const sons = tables.filter((table) => origin.fathers.filter((e) => e === table.origin).length > 0);
         console.log('sons');
         console.log(sons);
         return sons;
+    }
+
+    getCurrentTable = () => {
+        const { tables, tableId } = this.props;
+
+        const thisTable = tables.filter((e) => (e.id === tableId))[0];
+        return thisTable;
     }
 
     render() {
