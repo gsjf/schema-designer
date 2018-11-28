@@ -32,7 +32,7 @@ class TableModal extends Component<Props, State> {
             notSetFather: false,
             isAlias: editData.name !== editData.origin
         };
-        this.origin = editData.origin;
+
     }
 
     // Flow type for refs
@@ -43,8 +43,11 @@ class TableModal extends Component<Props, State> {
     timestamp: any
 
     focusInput = () => {
+        const { editData } = this.props;
+
         if (this.name) {
             this.name.focus();
+            this.origin = editData.origin;
         }
     }
 

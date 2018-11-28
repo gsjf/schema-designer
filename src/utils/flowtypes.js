@@ -36,7 +36,7 @@ export type TableType = {
     name: string,
     origin: string,
     color: string,
-    softDelete: boolean,
+    initAll: boolean,
     timeStamp: boolean
 };
 
