@@ -27,12 +27,12 @@ class TableModal extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         const { editData } = this.props;
+
         this.state = {
             duplicateName: false,
             notSetFather: false,
             isAlias: editData.name !== editData.origin
         };
-
     }
 
     // Flow type for refs
@@ -44,10 +44,13 @@ class TableModal extends Component<Props, State> {
 
     focusInput = () => {
         const { editData } = this.props;
-
+        this.setState({ isAlias: editData.name !== editData.origin });
+        this.origin = editData.origin;
+        this.color = editData.color;
+        this.initAll = editData.initAll;
+        this.timestamp = editData.timeStamp;
         if (this.name) {
             this.name.focus();
-            this.origin = editData.origin;
         }
     }
 
@@ -187,7 +190,7 @@ class TableModal extends Component<Props, State> {
                                 type='checkbox'
                                 id='name'
                                 onChange={ this.updateName }
-                                defaultChecked={ this.state.isAlias }
+                                checked={ this.state.isAlias }
                             /> Rename:
                             </label>
                             { this.state.isAlias &&
