@@ -95,16 +95,8 @@ class OriginKeyForm extends PureComponent<Props, State> {
     render() {
         console.log('ForeignKeyForm rendering'); // eslint-disable-line no-console
         const { column } = this.props;
-        // this.setState({
-        //     currentOriginTableName: column.originTable,
-        //     currentOriginColumnName: column.originColumn
-        // });
 
         const { currentOriginTableName } = this.state;
-        // const currentOriginTableName = this.state.currentOriginTableName;
-        // const currentOriginTableName = this.state.currentOriginColumnName;
-        // console.log(tables);
-        // console.log(tableId);
 
         return (
             <div className='form-group'>
@@ -122,7 +114,6 @@ class OriginKeyForm extends PureComponent<Props, State> {
 
                         {
                             this.getColumns(currentOriginTableName)
-                                .filter((e) => (e.name !== column.originColumn))
                                 .map((c) => (
 
                                     <option key={ c.name } value={ c.name }>
