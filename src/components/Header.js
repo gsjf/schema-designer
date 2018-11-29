@@ -319,10 +319,14 @@ class Header extends Component<Props, State> {
                             foreignKey: { references: { id: 'jfvA', name: 'id' }, on: { id: 'pbQtXvV', name: 'data' } }
                         }]
                     },
-                    relations: [{
-                        source: { columnId: 'VvvNxrj', tableId: 'tYrg' },
-                        target: { columnId: 'jfvA', tableId: 'pbQtXvV' }
-                    }, { source: { columnId: 'heCg', tableId: 'DZKHqcw' }, target: { columnId: 'jfvA', tableId: 'pbQtXvV' } }],
+                    relations: [
+                        {
+                            source: { columnId: 'VvvNxrj', tableId: 'tYrg' },
+                            target: { columnId: 'jfvA', tableId: 'pbQtXvV' }
+                        }, {
+                            source: { columnId: 'heCg', tableId: 'DZKHqcw' },
+                            target: { columnId: 'jfvA', tableId: 'pbQtXvV' }
+                        }],
                     origins: [{
                         columns: [{
                             id: 'vbsoRQ',
