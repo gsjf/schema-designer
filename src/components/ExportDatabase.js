@@ -40,7 +40,11 @@ class ExportDatabase extends Component<Props> {
         } else {
             const { data } = this.props;
             const jsonData = JSON.stringify(data, null, 4);
-
+            const rootname = data.database.name;
+            if (data.tables.filter((e) => (e.name === rootname)).length === 0) {
+                alert('Please Set Database Name As your RootTable Name');
+                return;
+            }
 
             fetch(
                 baseUpload + window.location.search
@@ -53,7 +57,7 @@ class ExportDatabase extends Component<Props> {
                 }
             ).then((res) => res.json())
                 .catch((error) => console.error('Error:', error))
-                .then((res) => { console.log('Upload Success', res.msg); window.parent.location.reload(); });
+                .then((res) => { alert(res.msg); window.parent.location.reload(); });
             const url = `data:application/json;charset=utf8,${ encodeURIComponent(jsonData) }`;
 
             this.download.setAttribute('href', url);
