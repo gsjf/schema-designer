@@ -200,6 +200,7 @@ class ColumnModal extends Component<Props, State> {
         this.setState({ isAlias: !this.state.isAlias });
     }
 
+
     render() {
         console.log('ColumnModal rendering'); // eslint-disable-line no-console
         const {

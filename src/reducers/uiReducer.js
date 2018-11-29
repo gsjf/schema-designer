@@ -116,14 +116,30 @@ export default (state = initialState, action) => {
                     }
                 });
             }
+            if (action.origin !== undefined) {
+                return update(state, {
+                    column: {
+                        showModal: { $set: true },
+                        tableId: { $set: action.tableId },
 
+                        editData: {
+                            originTable: {
+                                $set: action.origin
+                            }
+                        }
 
-            return update(state, { column: {
-                showModal: { $set: true },
-                editData: { originTable: { $set: action.origin } },
-                tableId: { $set: action.tableId }
+                    }
+                });
+            }
+            // editData: { originTable: { $set: action.origin } },
 
-            } });
+            return update(state, {
+                column: {
+                    showModal: { $set: true },
+                    tableId: { $set: action.tableId }
+
+                }
+            });
         }
         case types.ENABLE_COLUMN_EDIT:
             return update(state, {

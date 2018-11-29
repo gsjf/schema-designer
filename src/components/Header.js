@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 import ExportDatabase from '../containers/ExportDatabase';
-import ImportDatabase from './ImportDatabase';
 
 const tableTooltip = (
     <Tooltip id='table-tooltip'><strong>Create New Table</strong></Tooltip>
@@ -19,9 +18,6 @@ const trashTooltip = (
     <Tooltip id='trash-tooltip'><strong>Clear Current Schema</strong></Tooltip>
 );
 
-const forkTooltip = (
-    <Tooltip id='fork-tooltip'><strong>Fork me on Github</strong></Tooltip>
-);
 
 type State = {
     isRequest: boolean
@@ -70,7 +66,7 @@ class Header extends Component<Props, State> {
                 if (isDebug) {
                     const fake = {
                         database: {
-                            name: 'mysql'
+                            name: 'brapi'
                         },
                         ui: {
                             database: {
@@ -81,11 +77,12 @@ class Header extends Component<Props, State> {
                                 showModal: false,
                                 edit: false,
                                 editData: {
+                                    origin: null,
+                                    isAlias: false,
                                     id: '',
                                     name: '',
-                                    softDelete: false,
-                                    timeStamp: true,
-                                    initAll: true
+                                    initAll: true,
+                                    timeStamp: true
                                 }
                             },
                             column: {
@@ -94,10 +91,9 @@ class Header extends Component<Props, State> {
                                 editData: {
                                     id: '',
                                     name: '',
-                                    type: 'integer',
+                                    type: 'Integer',
                                     length: '',
                                     defValue: '',
-                                    origin: null,
                                     comment: '',
                                     autoInc: false,
                                     nullable: false,
@@ -121,92 +117,87 @@ class Header extends Component<Props, State> {
                                 tableId: ''
                             },
                             positions: {
-                                gfms4: {
-                                    x: 918,
-                                    y: 119
+                                tYrg: {
+                                    x: 150,
+                                    y: 0
                                 },
-                                x00uni: {
-                                    x: 365,
-                                    y: 119
+                                pbQtXvV: {
+                                    x: 459,
+                                    y: 4
+                                },
+                                DZKHqcw: {
+                                    x: 750,
+                                    y: 0
                                 }
                             }
                         },
                         tables: [
                             {
-                                id: 'gfms4',
-                                name: 'dd',
+                                id: 'tYrg',
+                                name: 'brapi',
+                                origin: 'brapi',
                                 color: 'table-header-red',
-                                softDelete: false,
-                                timeStamp: true
+                                initAll: true,
+                                timeStamp: false
                             },
                             {
-                                id: 'x00uni',
-                                name: 'ddd2',
+                                id: 'pbQtXvV',
+                                name: 'data',
+                                origin: 'data',
                                 color: 'table-header-red',
-                                softDelete: false,
-                                timeStamp: true
+                                initAll: true,
+                                timeStamp: false
+                            },
+                            {
+                                id: 'DZKHqcw',
+                                name: 'detail',
+                                origin: 'detail',
+                                color: 'table-header-red',
+                                initAll: true,
+                                timeStamp: false
                             }
                         ],
                         columns: {
-                            gfms4: [
+                            DZKHqcw: [
                                 {
-                                    id: 'toxm9',
-                                    name: 'd',
-                                    type: 'tinyInteger',
-                                    length: '1',
-                                    defValue: '1',
-                                    comment: '11',
-                                    autoInc: false,
-                                    nullable: false,
-                                    unique: false,
+                                    id: 'lJnmsp',
+                                    name: 'id',
+                                    alias: false,
+                                    originTable: 'detail',
+                                    originColumn: 'id',
+                                    type: 'Integer',
+                                    comment: 'Auto Generate PK ID',
+                                    autoInc: true,
+                                    unique: true,
                                     index: false,
                                     unsigned: false,
-                                    foreignKey: {
-                                        references: {
-                                            id: '',
-                                            name: ''
-                                        },
-                                        on: {
-                                            id: '',
-                                            name: ''
-                                        }
-                                    }
-                                },
-                                {
-                                    id: 'x6rlz',
-                                    name: 'f',
-                                    type: 'integer',
+                                    nullable: true,
                                     length: '',
                                     defValue: '',
-                                    comment: '',
-                                    autoInc: false,
-                                    nullable: false,
-                                    unique: false,
-                                    index: true,
-                                    unsigned: true,
                                     foreignKey: {
                                         references: {
-                                            id: 'x6rlz',
-                                            name: 'f'
+                                            id: '',
+                                            name: ''
                                         },
                                         on: {
-                                            id: 'gfms4',
-                                            name: 'dd'
+                                            id: '',
+                                            name: ''
                                         }
                                     }
                                 },
                                 {
-                                    id: 'w2qy2a',
-                                    name: 'asdf',
-                                    type: 'VARCHAR',
-                                    length: '16',
-                                    defValue: '1252',
-                                    comment: '',
+                                    id: 'uATdtE',
+                                    name: 'value',
+                                    type: 'Text',
+                                    length: '',
+                                    defValue: '',
+                                    comment: 'eg: STR0002532',
                                     autoInc: false,
-                                    nullable: false,
+                                    nullable: true,
                                     unique: false,
                                     index: false,
                                     unsigned: false,
+                                    originColumn: 'value',
                                     foreignKey: {
                                         references: {
                                             id: '',
@@ -215,23 +206,78 @@ class Header extends Component<Props, State> {
                                         on: {
                                             id: '',
                                             name: ''
+                                        }
+                                    },
+                                    alias: false
+                                },
+                                {
+                                    id: 'vSysCL',
+                                    name: 'key',
+                                    type: 'VARCHAR',
+                                    length: '10',
+                                    defValue: '',
+                                    comment: 'eg: rs_strategy_id',
+                                    autoInc: false,
+                                    nullable: true,
+                                    unique: false,
+                                    index: false,
+                                    unsigned: false,
+                                    originColumn: 'key',
+                                    foreignKey: {
+                                        references: {
+                                            id: '',
+                                            name: ''
+                                        },
+                                        on: {
+                                            id: '',
+                                            name: ''
+                                        }
+                                    },
+                                    alias: false
+                                },
+                                {
+                                    id: 'heCg',
+                                    name: 'dataid',
+                                    alias: false,
+                                    originTable: '',
+                                    originColumn: '',
+                                    type: 'Integer',
+                                    comment: 'Auto Generate FK ID',
+                                    autoInc: false,
+                                    unique: false,
+                                    index: false,
+                                    unsigned: true,
+                                    nullable: false,
+                                    length: '',
+                                    defValue: '',
+                                    foreignKey: {
+                                        references: {
+                                            id: 'jfvA',
+                                            name: 'id'
+                                        },
+                                        on: {
+                                            id: 'pbQtXvV',
+                                            name: 'data'
                                         }
                                     }
                                 }
                             ],
-                            x00uni: [
+                            pbQtXvV: [
                                 {
-                                    id: 'mjhso',
+                                    id: 'jfvA',
                                     name: 'id',
-                                    type: 'integer',
-                                    length: '',
-                                    defValue: '',
-                                    comment: '',
+                                    alias: false,
+                                    originTable: 'data',
+                                    originColumn: 'id',
+                                    type: 'Integer',
+                                    comment: 'Auto Generate PK ID',
                                     autoInc: true,
-                                    nullable: false,
-                                    unique: false,
+                                    unique: true,
                                     index: false,
                                     unsigned: false,
+                                    nullable: true,
+                                    length: '',
+                                    defValue: '',
                                     foreignKey: {
                                         references: {
                                             id: '',
@@ -244,25 +290,181 @@ class Header extends Component<Props, State> {
                                     }
                                 },
                                 {
-                                    id: 'p08smp',
-                                    name: 'aaa',
-                                    type: 'integer',
-                                    length: '10',
+                                    id: 'pmuTS',
+                                    name: 'code',
+                                    type: 'VARCHAR',
+                                    length: '20',
                                     defValue: '',
-                                    comment: 'adfds',
+                                    comment: 'eg: 00',
                                     autoInc: false,
-                                    nullable: false,
+                                    nullable: true,
+                                    unique: false,
+                                    index: false,
+                                    unsigned: false,
+                                    originColumn: 'code',
+                                    foreignKey: {
+                                        references: {
+                                            id: '',
+                                            name: ''
+                                        },
+                                        on: {
+                                            id: '',
+                                            name: ''
+                                        }
+                                    },
+                                    alias: false
+                                },
+                                {
+                                    id: 'mZWDjNC',
+                                    name: 'swift_number',
+                                    type: 'Text',
+                                    length: '',
+                                    defValue: '',
+                                    comment: '',
+                                    autoInc: false,
+                                    nullable: true,
+                                    unique: false,
+                                    index: false,
+                                    unsigned: false,
+                                    originColumn: 'swift_number',
+                                    foreignKey: {
+                                        references: {
+                                            id: '',
+                                            name: ''
+                                        },
+                                        on: {
+                                            id: '',
+                                            name: ''
+                                        }
+                                    },
+                                    alias: false
+                                }
+                            ],
+                            tYrg: [
+                                {
+                                    id: 'vbsoRQ',
+                                    name: 'id',
+                                    alias: false,
+                                    originTable: 'brapi',
+                                    originColumn: 'id',
+                                    type: 'Integer',
+                                    comment: 'Auto Generate PK ID',
+                                    autoInc: true,
+                                    unique: true,
+                                    index: false,
+                                    unsigned: false,
+                                    nullable: true,
+                                    length: '',
+                                    defValue: '',
+                                    foreignKey: {
+                                        references: {
+                                            id: '',
+                                            name: ''
+                                        },
+                                        on: {
+                                            id: '',
+                                            name: ''
+                                        }
+                                    }
+                                },
+                                {
+                                    id: 'FYXAjs',
+                                    name: 'phone',
+                                    type: 'VARCHAR',
+                                    length: '1000',
+                                    defValue: '',
+                                    comment: 'eg: 18434814774',
+                                    autoInc: false,
+                                    nullable: true,
+                                    unique: false,
+                                    index: false,
+                                    unsigned: false,
+                                    originColumn: 'phone',
+                                    foreignKey: {
+                                        references: {
+                                            id: '',
+                                            name: ''
+                                        },
+                                        on: {
+                                            id: '',
+                                            name: ''
+                                        }
+                                    },
+                                    alias: false
+                                },
+                                {
+                                    id: 'sSCa',
+                                    name: 'idCard',
+                                    type: 'VARCHAR',
+                                    length: '32',
+                                    defValue: '',
+                                    comment: 'eg: 371424197808120099',
+                                    autoInc: false,
+                                    nullable: true,
+                                    unique: false,
+                                    index: false,
+                                    unsigned: false,
+                                    originColumn: 'idCard',
+                                    foreignKey: {
+                                        references: {
+                                            id: '',
+                                            name: ''
+                                        },
+                                        on: {
+                                            id: '',
+                                            name: ''
+                                        }
+                                    },
+                                    alias: false
+                                },
+                                {
+                                    id: 'BdekOo',
+                                    name: 'name',
+                                    type: 'VARCHAR',
+                                    length: '20',
+                                    defValue: '',
+                                    comment: 'eg: 杨小龙',
+                                    autoInc: false,
+                                    nullable: true,
+                                    unique: false,
+                                    index: false,
+                                    unsigned: false,
+                                    originColumn: 'name',
+                                    foreignKey: {
+                                        references: {
+                                            id: '',
+                                            name: ''
+                                        },
+                                        on: {
+                                            id: '',
+                                            name: ''
+                                        }
+                                    },
+                                    alias: false
+                                },
+                                {
+                                    id: 'VvvNxrj',
+                                    name: 'dataid',
+                                    alias: false,
+                                    originTable: '',
+                                    originColumn: '',
+                                    type: 'Integer',
+                                    comment: 'Auto Generate FK ID',
+                                    autoInc: false,
                                     unique: false,
                                     index: false,
                                     unsigned: true,
+                                    nullable: false,
+                                    length: '',
+                                    defValue: '',
                                     foreignKey: {
                                         references: {
-                                            id: 'x6rlz',
-                                            name: 'f'
+                                            id: 'jfvA',
+                                            name: 'id'
                                         },
                                         on: {
-                                            id: 'gfms4',
-                                            name: 'dd'
+                                            id: 'pbQtXvV',
+                                            name: 'data'
                                         }
                                     }
                                 }
@@ -271,22 +473,22 @@ class Header extends Component<Props, State> {
                         relations: [
                             {
                                 source: {
-                                    columnId: 'p08smp',
-                                    tableId: 'x00uni'
+                                    columnId: 'VvvNxrj',
+                                    tableId: 'tYrg'
                                 },
                                 target: {
-                                    columnId: 'x6rlz',
-                                    tableId: 'gfms4'
+                                    columnId: 'jfvA',
+                                    tableId: 'pbQtXvV'
                                 }
                             },
                             {
                                 source: {
-                                    columnId: 'x6rlz',
-                                    tableId: 'gfms4'
+                                    columnId: 'heCg',
+                                    tableId: 'DZKHqcw'
                                 },
                                 target: {
-                                    columnId: 'x6rlz',
-                                    tableId: 'gfms4'
+                                    columnId: 'jfvA',
+                                    tableId: 'pbQtXvV'
                                 }
                             }
                         ],
@@ -294,209 +496,347 @@ class Header extends Component<Props, State> {
                             {
                                 columns: [
                                     {
-                                        id: '8469oe',
+                                        id: 'vbsoRQ',
                                         name: 'id',
-                                        type: 'integer',
-                                        length: '',
-                                        defValue: '',
-                                        comment: '',
+                                        alias: false,
+                                        originTable: 'brapi',
+                                        originColumn: 'id',
+                                        type: 'Integer',
+                                        comment: 'Auto Generate PK ID',
                                         autoInc: true,
-                                        nullable: false,
-                                        unique: false,
+                                        unique: true,
                                         index: false,
                                         unsigned: false,
-                                        foreignKey: {
-                                            references: {
-                                                id: '',
-                                                name: ''
-                                            },
-                                            on: {
-                                                id: '',
-                                                name: ''
-                                            }
-                                        }
-                                    },
-                                    {
-                                        id: 'wg94c3',
-                                        name: 'root_name',
-                                        type: 'char',
-                                        length: '10',
-                                        defValue: '',
-                                        comment: '',
-                                        autoInc: false,
-                                        nullable: false,
-                                        unique: false,
-                                        index: false,
-                                        unsigned: false,
-                                        foreignKey: {
-                                            references: {
-                                                id: '',
-                                                name: ''
-                                            },
-                                            on: {
-                                                id: '',
-                                                name: ''
-                                            }
-                                        }
-                                    },
-                                    {
-                                        id: 't6ge48',
-                                        name: 'brother_id',
-                                        type: 'integer',
+                                        nullable: true,
                                         length: '',
                                         defValue: '',
-                                        comment: '',
+                                        foreignKey: {
+                                            references: {
+                                                id: '',
+                                                name: ''
+                                            },
+                                            on: {
+                                                id: '',
+                                                name: ''
+                                            }
+                                        }
+                                    },
+                                    {
+                                        id: 'FYXAjs',
+                                        name: 'phone',
+                                        alias: false,
+                                        originTable: 'brapi',
+                                        originColumn: 'phone',
+                                        type: 'MEDIUMTEXT',
+                                        comment: 'eg: 18434814774',
                                         autoInc: false,
-                                        nullable: false,
+                                        unique: null,
+                                        index: false,
+                                        unsigned: false,
+                                        nullable: true,
+                                        length: '',
+                                        defValue: '',
+                                        foreignKey: {
+                                            references: {
+                                                id: '',
+                                                name: ''
+                                            },
+                                            on: {
+                                                id: '',
+                                                name: ''
+                                            }
+                                        }
+                                    },
+                                    {
+                                        id: 'sSCa',
+                                        name: 'idCard',
+                                        alias: false,
+                                        originTable: 'brapi',
+                                        originColumn: 'idCard',
+                                        type: 'MEDIUMTEXT',
+                                        comment: 'eg: 371424197808120099',
+                                        autoInc: false,
+                                        unique: null,
+                                        index: false,
+                                        unsigned: false,
+                                        nullable: true,
+                                        length: '',
+                                        defValue: '',
+                                        foreignKey: {
+                                            references: {
+                                                id: '',
+                                                name: ''
+                                            },
+                                            on: {
+                                                id: '',
+                                                name: ''
+                                            }
+                                        }
+                                    },
+                                    {
+                                        id: 'BdekOo',
+                                        name: 'name',
+                                        alias: false,
+                                        originTable: 'brapi',
+                                        originColumn: 'name',
+                                        type: 'MEDIUMTEXT',
+                                        comment: 'eg: 杨小龙',
+                                        autoInc: false,
+                                        unique: null,
+                                        index: false,
+                                        unsigned: false,
+                                        nullable: true,
+                                        length: '',
+                                        defValue: '',
+                                        foreignKey: {
+                                            references: {
+                                                id: '',
+                                                name: ''
+                                            },
+                                            on: {
+                                                id: '',
+                                                name: ''
+                                            }
+                                        }
+                                    },
+                                    {
+                                        id: 'VvvNxrj',
+                                        name: 'dataid',
+                                        alias: false,
+                                        originTable: '',
+                                        originColumn: '',
+                                        type: 'Integer',
+                                        comment: 'Auto Generate FK ID',
+                                        autoInc: false,
                                         unique: false,
                                         index: false,
                                         unsigned: true,
+                                        nullable: false,
+                                        length: '',
+                                        defValue: '',
                                         foreignKey: {
                                             references: {
-                                                id: 'p6e1b',
+                                                id: 'jfvA',
                                                 name: 'id'
                                             },
                                             on: {
-                                                id: 'umbt3w',
-                                                name: 'brother'
+                                                id: 'pbQtXvV',
+                                                name: 'data'
                                             }
                                         }
                                     }
                                 ],
+                                name: 'brapi',
                                 fathers: [],
-                                sons: ['son'],
-                                brothers: ['brother'],
-                                name: 'root'
+                                sons: [],
+                                brothers: [
+                                    'data'
+                                ]
                             },
                             {
                                 columns: [
                                     {
-                                        id: 'p9xytc',
+                                        id: 'jfvA',
                                         name: 'id',
-                                        type: 'integer',
-                                        length: '',
-                                        defValue: '',
-                                        comment: '',
+                                        alias: false,
+                                        originTable: 'data',
+                                        originColumn: 'id',
+                                        type: 'Integer',
+                                        comment: 'Auto Generate PK ID',
                                         autoInc: true,
-                                        nullable: false,
-                                        unique: false,
+                                        unique: true,
                                         index: false,
                                         unsigned: false,
-                                        foreignKey: {
-                                            references: {
-                                                id: '',
-                                                name: ''
-                                            },
-                                            on: {
-                                                id: '',
-                                                name: ''
-                                            }
-                                        }
-                                    },
-                                    {
-                                        id: '6cteap',
-                                        name: 'son_name',
-                                        type: 'char',
-                                        length: '10',
-                                        defValue: '',
-                                        comment: '',
-                                        autoInc: false,
-                                        nullable: false,
-                                        unique: false,
-                                        index: false,
-                                        unsigned: false,
-                                        foreignKey: {
-                                            references: {
-                                                id: '',
-                                                name: ''
-                                            },
-                                            on: {
-                                                id: '',
-                                                name: ''
-                                            }
-                                        }
-                                    },
-                                    {
-                                        id: 'jafhq',
-                                        name: 'root_id',
-                                        type: 'integer',
+                                        nullable: true,
                                         length: '',
                                         defValue: '',
-                                        comment: '',
+                                        foreignKey: {
+                                            references: {
+                                                id: '',
+                                                name: ''
+                                            },
+                                            on: {
+                                                id: '',
+                                                name: ''
+                                            }
+                                        }
+                                    },
+                                    {
+                                        id: 'pmuTS',
+                                        name: 'code',
+                                        alias: false,
+                                        originTable: 'data',
+                                        originColumn: 'code',
+                                        type: 'MEDIUMTEXT',
+                                        comment: 'eg: 00',
                                         autoInc: false,
-                                        nullable: false,
+                                        unique: null,
+                                        index: false,
+                                        unsigned: false,
+                                        nullable: true,
+                                        length: '',
+                                        defValue: '',
+                                        foreignKey: {
+                                            references: {
+                                                id: '',
+                                                name: ''
+                                            },
+                                            on: {
+                                                id: '',
+                                                name: ''
+                                            }
+                                        }
+                                    },
+                                    {
+                                        id: 'mZWDjNC',
+                                        name: 'swift_number',
+                                        alias: false,
+                                        originTable: 'data',
+                                        originColumn: 'swift_number',
+                                        type: 'MEDIUMTEXT',
+                                        comment: 'eg: 3002973_20181115133917_0625',
+                                        autoInc: false,
+                                        unique: null,
+                                        index: false,
+                                        unsigned: false,
+                                        nullable: true,
+                                        length: '',
+                                        defValue: '',
+                                        foreignKey: {
+                                            references: {
+                                                id: '',
+                                                name: ''
+                                            },
+                                            on: {
+                                                id: '',
+                                                name: ''
+                                            }
+                                        }
+                                    }
+                                ],
+                                name: 'data',
+                                fathers: [
+                                    'brapi'
+                                ],
+                                sons: [
+                                    'detail'
+                                ],
+                                brothers: []
+                            },
+                            {
+                                columns: [
+                                    {
+                                        id: 'lJnmsp',
+                                        name: 'id',
+                                        alias: false,
+                                        originTable: 'detail',
+                                        originColumn: 'id',
+                                        type: 'Integer',
+                                        comment: 'Auto Generate PK ID',
+                                        autoInc: true,
+                                        unique: true,
+                                        index: false,
+                                        unsigned: false,
+                                        nullable: true,
+                                        length: '',
+                                        defValue: '',
+                                        foreignKey: {
+                                            references: {
+                                                id: '',
+                                                name: ''
+                                            },
+                                            on: {
+                                                id: '',
+                                                name: ''
+                                            }
+                                        }
+                                    },
+                                    {
+                                        id: 'uATdtE',
+                                        name: 'value',
+                                        alias: false,
+                                        originTable: 'detail',
+                                        originColumn: 'value',
+                                        type: 'MEDIUMTEXT',
+                                        comment: 'eg: STR0002532',
+                                        autoInc: false,
+                                        unique: null,
+                                        index: false,
+                                        unsigned: false,
+                                        nullable: true,
+                                        length: '',
+                                        defValue: '',
+                                        foreignKey: {
+                                            references: {
+                                                id: '',
+                                                name: ''
+                                            },
+                                            on: {
+                                                id: '',
+                                                name: ''
+                                            }
+                                        }
+                                    },
+                                    {
+                                        id: 'vSysCL',
+                                        name: 'key',
+                                        alias: false,
+                                        originTable: 'detail',
+                                        originColumn: 'key',
+                                        type: 'MEDIUMTEXT',
+                                        comment: 'eg: rs_strategy_id',
+                                        autoInc: false,
+                                        unique: null,
+                                        index: false,
+                                        unsigned: false,
+                                        nullable: true,
+                                        length: '',
+                                        defValue: '',
+                                        foreignKey: {
+                                            references: {
+                                                id: '',
+                                                name: ''
+                                            },
+                                            on: {
+                                                id: '',
+                                                name: ''
+                                            }
+                                        }
+                                    },
+                                    {
+                                        id: 'heCg',
+                                        name: 'dataid',
+                                        alias: false,
+                                        originTable: '',
+                                        originColumn: '',
+                                        type: 'Integer',
+                                        comment: 'Auto Generate FK ID',
+                                        autoInc: false,
                                         unique: false,
                                         index: false,
                                         unsigned: true,
+                                        nullable: false,
+                                        length: '',
+                                        defValue: '',
                                         foreignKey: {
                                             references: {
-                                                id: '8469oe',
+                                                id: 'jfvA',
                                                 name: 'id'
                                             },
                                             on: {
-                                                id: 'ja01uu',
-                                                name: 'root'
+                                                id: 'pbQtXvV',
+                                                name: 'data'
                                             }
                                         }
                                     }
                                 ],
-                                fathers: ['root'],
-                                brothers: [],
-                                sons: [],
-                                name: 'son'
-                            }, {
-                                columns: [
-                                    {
-                                        id: '2hhh89',
-                                        name: 'brother_name',
-                                        type: 'char',
-                                        length: '10',
-                                        defValue: '',
-                                        comment: '',
-                                        autoInc: false,
-                                        nullable: false,
-                                        unique: false,
-                                        index: false,
-                                        unsigned: false,
-                                        foreignKey: {
-                                            references: {
-                                                id: '',
-                                                name: ''
-                                            },
-                                            on: {
-                                                id: '',
-                                                name: ''
-                                            }
-                                        }
-                                    },
-                                    {
-                                        id: 'p6e1b',
-                                        name: 'id',
-                                        type: 'integer',
-                                        length: '',
-                                        defValue: '',
-                                        comment: '',
-                                        autoInc: true,
-                                        nullable: false,
-                                        unique: false,
-                                        index: false,
-                                        unsigned: false,
-                                        foreignKey: {
-                                            references: {
-                                                id: '',
-                                                name: ''
-                                            },
-                                            on: {
-                                                id: '',
-                                                name: ''
-                                            }
-                                        }
-                                    }
+                                name: 'detail',
+                                fathers: [
+                                    'brapi',
+                                    'data'
                                 ],
-                                fathers: [],
-                                brothers: ['root'],
                                 sons: [],
-                                name: 'brother'
+                                brothers: []
                             }
                         ],
                         primary: 'id'
@@ -533,7 +873,7 @@ class Header extends Component<Props, State> {
                 <div className='container'>
                     <div className='row'>
                         <div className='title col-xs-5 col-sm-4 text-left'>
-                            <strong>Schema Builder</strong>
+                            <strong>JSON2DB</strong>
                         </div>
                         <OverlayTrigger
                             placement='bottom'
@@ -590,20 +930,7 @@ class Header extends Component<Props, State> {
 
                                 <ExportDatabase />
 
-                                <ImportDatabase />
 
-                                <li>
-                                    <OverlayTrigger
-                                        placement='bottom'
-                                        overlay={ forkTooltip }
-                                        delayShow={ 300 }
-                                        rootClose
-                                    >
-                                        <a href='https://github.com/Agontuk/schema-designer'>
-                                            <i className='fa fa-github fa-lg' />
-                                        </a>
-                                    </OverlayTrigger>
-                                </li>
                             </ul>
                         </div>
                     </div>

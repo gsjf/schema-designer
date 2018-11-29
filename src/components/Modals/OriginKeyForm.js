@@ -21,40 +21,35 @@ type State = {
 };
 
 class OriginKeyForm extends PureComponent<Props, State> {
+    props: Props
+
+    state: State
+
     constructor(props: Props) {
         super(props);
-        const { column } = props;
+        const { column } = this.props;
         this.state = {
             currentOriginTableName: column.originTable,
             currentOriginColumnName: column.originColumn
         };
     }
-
-
-    props: Props
-
-    state: State
-
     getData = () => ({ ...this.state })
 
-    setCurrentForeignTable = (event: { target: { value: string } }) => {
+    setCurrentOriginTable = (event: { target: { value: string } }) => {
         const selected = event.target.value;
 
         this.setState({
             currentOriginTableName: selected,
-            currentOriginColumnName: this.state.currentOriginColumnName
+            currentOriginColumnName: null
         });
     }
 
-    setCurrentForeignColumn = (event: { target: { value: string } }) => {
-        const { currentOriginTableName } = this.state;
-
+    setCurrentOriginColumn = (event: { target: { value: string } }) => {
         const selected = event.target.value;
 
 
         this.setState({
-            currentOriginColumnName: selected,
-            currentOriginTableName
+            currentOriginColumnName: selected
         });
     }
 
@@ -75,6 +70,7 @@ class OriginKeyForm extends PureComponent<Props, State> {
         const thisTable = this.getCurrentTable();
         if (thisTable === undefined) return [];
         const origin = origins.filter((e) => (e.name === name))[0];
+        if (origin === undefined) return [];
         return origin.columns.filter((column) => !column.foreignKey.on.id && column.name !== primary);
     }
 
@@ -98,10 +94,17 @@ class OriginKeyForm extends PureComponent<Props, State> {
 
     render() {
         console.log('ForeignKeyForm rendering'); // eslint-disable-line no-console
-        const { tables, tableId } = this.props;
-        const { currentOriginTableName, currentOriginColumnName } = this.state;
-        console.log(tables);
-        console.log(tableId);
+        const { column } = this.props;
+        // this.setState({
+        //     currentOriginTableName: column.originTable,
+        //     currentOriginColumnName: column.originColumn
+        // });
+
+        const { currentOriginTableName } = this.state;
+        // const currentOriginTableName = this.state.currentOriginTableName;
+        // const currentOriginTableName = this.state.currentOriginColumnName;
+        // console.log(tables);
+        // console.log(tableId);
 
         return (
             <div className='form-group'>
@@ -112,19 +115,20 @@ class OriginKeyForm extends PureComponent<Props, State> {
                 <div className='col-xs-3'>
                     <select
                         className='form-control'
-                        onChange={ this.setCurrentForeignColumn }
-                        defaultValue={ currentOriginColumnName }
+                        onChange={ this.setCurrentOriginColumn }
+                        defaultValue={ column.originColumn }
                     >
-                        <option value=''>None</option>
+                        <option value=''>null</option>
 
-                        { currentOriginTableName &&
-                        this.getColumns(currentOriginTableName)
-                            .map((column) => (
+                        {
+                            this.getColumns(currentOriginTableName)
+                                .filter((e) => (e.name !== column.originColumn))
+                                .map((c) => (
 
-                                <option key={ column.name } value={ column.name }>
-                                    { column.name }
-                                </option>
-                            ))
+                                    <option key={ c.name } value={ c.name }>
+                                        {c.name}
+                                    </option>
+                                ))
                         }
 
 
@@ -134,24 +138,24 @@ class OriginKeyForm extends PureComponent<Props, State> {
                 <div className='col-xs-3'>
                     <select
                         className='form-control'
-                        onChange={ this.setCurrentForeignTable }
-                        defaultValue={ currentOriginTableName }
+                        onChange={ this.setCurrentOriginTable }
+                        defaultValue={ column.originTable }
                     >
 
                         <option value=''>null</option>
-                        <option value={ currentOriginTableName }>{ currentOriginTableName }</option>
+                        <option value={ column.originTable }>{column.originTable}</option>
 
                         <optgroup label='Father'>
-                            { this.getFather().map((name) => (
+                            {this.getFather().map((name) => (
                                 <option key={ name } value={ name }>
-                                    { name }
+                                    {name}
                                 </option>
                             ))}
 
                         </optgroup>
 
                         <optgroup label='Brother'>
-                            { this.getBrother().map((name) => (
+                            {this.getBrother().map((name) => (
                                 <option key={ name } value={ name }>
                                     {name}
                                 </option>
